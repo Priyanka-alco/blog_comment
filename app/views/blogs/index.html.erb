@@ -1,0 +1,70 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Blogs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Content</th>
+      <th colspan="4"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @blogs.each do |blog| %>
+    <% check_comment = check_comment(blog.id) %>
+      <tr>
+        <td><%= blog.title %></td>
+        <td><%= blog.content %></td>
+        <td>
+          <input type="hidden" class="blog_comment_id" value="<%= blog.id %>">
+          <span class="btn btn-info btn-lg add_comment" data-toggle="modal" data-target="#myModal" >Add Comment</span></td>
+        <td>
+          <% if check_comment.present? %>
+            <a href="/show_comment?id=<%= blog.id %>" class="btn btn-primary">Show Comment</a>
+            <% end %>
+        </td>
+        <td><%= link_to 'Edit', edit_blog_path(blog),:class=>"btn btn-info" %></td>
+        <td><%= link_to 'Destroy', blog, method: :delete, data: { confirm: 'Are you sure?' },:class=>"btn btn-danger" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="/add_comment">
+          <%= csrf_meta_tags %>
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+          <input type="hidden" class="comment_blog_id" name="blog_id" value="">
+          <input type="hidden"  name="user_id" value="<%= session[:user_detail]["id"] %>">
+          <textarea name="comment"></textarea>
+          <input type="submit" name="add_comment">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<%= link_to 'New Blog', new_blog_path %>
+<script>
+  $('.add_comment').click(function(){
+      var blog_id = $(this).prev().val();
+      $('.comment_blog_id').val(blog_id);
+  });
+</script>

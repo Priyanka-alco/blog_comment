@@ -1,0 +1,18 @@
+<table>
+  <thead>
+    <th>Comment</th>
+    <th>status</th>
+  </thead>
+  <tbody>
+  <% if @get_comment.present? %>
+  <% @get_comment.each do |comment| %>
+      <tr>
+        <td><%= comment.comment %></td>
+        <td><%= comment.status == true ? "Active" : "Inactive" %></td>
+      </tr>
+  <% end %>
+  <% end %>
+
+  </tbody>
+</table>
+<%= link_to 'Back', blogs_path %>
