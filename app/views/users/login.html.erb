@@ -69,7 +69,7 @@
 <body>
 
 <h2>Login Form</h2>
-
+HH<%= session.inspect %>HH
 <form action="/authenticate" method="post">
   <div class="container">
     <label for="uname"><b>Username</b></label>
@@ -91,8 +91,8 @@
 
 </body>
 </html>
-<scaript>
+<script>
   <% if params['status'] == 1 %>
   alert("Please Enter Valid Credentials");
   <% end %>
-</scaript>
+</script>
