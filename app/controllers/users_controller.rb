@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
   def authenticate
     command = AuthenticateUser.call(params[:email], params[:password])
-
+    Rails.logger.info "========== #{command.inspect}"
     if command.success?
       session[:auth_code] = command.result['auth_token']
       session[:user_detail] = command.result['user_detail']
